@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Salesforce Mock API
+  description: A mock Salesforce API to manage sales account information.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /api/accounts:
+    get:
+      summary: List all accounts
+      description: Retrieve a list of all accounts with basic details including name, region, and annual revenue.
+      responses:
+        '200':
+          description: A list of accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    region:
+                      type: string
+                    annual_revenue:
+                      type: number
+
+  /api/accounts/{account_id}:
+    get:
+      summary: Retrieve account by ID
+      description: Fetches detailed data for a single account using its ID.
+      parameters:
+        - in: path
+          name: account_id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the account to retrieve.
+      responses:
+        '200':
+          description: Detailed account information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  industry:
+                    type: string
+                  annual_revenue:
+                    type: number
+                  number_of_employees:
+                    type: integer
+                  region:
+                    type: string
+                  status:
+                    type: string
+        '404':
+          description: Account not found
+
+  /api/accounts/search:
+    get:
+      summary: Search accounts by name
+      description: Search for accounts where the name field contains the given query string, using a case-insensitive match.
+      parameters:
+        - in: query
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The partial or full account name to search for.
+      responses:
+        '200':
+          description: A list of accounts that match the search criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    industry:
+                      type: string
+                    annual_revenue:
+                      type: number
+                    number_of_employees:
+                      type: integer
+                    region:
+                      type: string
+                    status:
+                      type: string
+        '404':
+          description: No accounts found matching the criteria
