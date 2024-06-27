@@ -32,6 +32,7 @@ def home() -> str:
     """
     return "Welcome to the Sales API!"
 
+
 @app.route('/api/accounts', methods=['GET'])
 def get_accounts() -> Tuple[List[Dict], int]:
     """ Retrieve all accounts from the database.
@@ -48,6 +49,7 @@ def get_accounts() -> Tuple[List[Dict], int]:
     except sqlite3.Error as e:
         logger.error(f"Database error: {e}")
         return jsonify({'error': 'Unable to fetch accounts'}), 500
+
 
 @app.route('/api/accounts/<account_id>', methods=['GET'])
 def get_account(account_id: str) -> Tuple[Dict, int]:
@@ -70,6 +72,7 @@ def get_account(account_id: str) -> Tuple[Dict, int]:
     except sqlite3.Error as e:
         logger.error(f"Database error: {e}")
         return jsonify({'error': 'Unable to fetch account'}), 500
+
 
 @app.route('/api/accounts/search', methods=['GET'])
 def search_accounts() -> Tuple[List[Dict], int]:
