@@ -30,7 +30,7 @@ def home() -> str:
     Returns:
         A welcome message.
     """
-    return "Welcome to the API!"
+    return "Welcome to the Sales API!"
 
 @app.route('/api/accounts', methods=['GET'])
 def get_accounts() -> Tuple[List[Dict], int]:
