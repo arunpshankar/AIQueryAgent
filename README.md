@@ -2,6 +2,8 @@
 
 AI agent capable of querying a mock sales database via a RESTful API to fetch and analyze customer-centric data.
 
+![agent](./img/agent-interaction.png)
+
 ## Tools and Services
 
 - GCP Vertex AI Agent Builder
@@ -93,5 +95,8 @@ Create an OpenAPI spec similar to the example in `./data/sales.yml`.
 ### 12. Set Up Agent
 
 Use the OpenAPI spec to set up the agent under Agent Builder. The spec is used to create a tool, and the agent uses this tool to communicate with the Cloud Function to retrieve account-specific information.
+
+**Note:** Set auth type to API key as shown below in the console. 
+![auth](./img/auth.png)
 
 ---
