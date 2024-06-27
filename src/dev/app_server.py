@@ -30,7 +30,7 @@ def home() -> str:
     Returns:
         A welcome message.
     """
-    return "Welcome to the Sales API!"
+    return "Welcome to Sales API!"
 
 
 @app.route('/api/accounts', methods=['GET'])

@@ -12,8 +12,8 @@ AI agent capable of querying a mock sales database via a RESTful API to fetch an
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/arunpshankar/AIQueryAgent.git
+cd AIQueryAgent
 ```
 
 ### 2. Create and Activate Virtual Environment
