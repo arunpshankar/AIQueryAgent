@@ -61,9 +61,28 @@ def search_accounts_by_name(name: str) -> Optional[List[Dict]]:
     except requests.exceptions.RequestException as e:
         logging.error("Failed to search accounts by name %s: %s", name, e)
         return None
+    
+
+def generate_account_url(account_id: str, account_type: str) -> Optional[Dict]:
+    """
+    Generate a URL for the given account ID and type and log the results or errors.
+
+    Returns the generated URL if successful, None otherwise.
+    """
+    try:
+        payload = {'account_id': account_id, 'account_type': account_type}
+        response = requests.post(f'{BASE_URL}/api/accounts/url', json=payload)
+        response.raise_for_status()
+        url = response.json()
+        logging.info("Generated URL for account %s of type %s: %s", account_id, account_type, url)
+        return url
+    except requests.exceptions.RequestException as e:
+        logging.error("Failed to generate URL for account %s of type %s: %s", account_id, account_type, e)
+        return None
 
 
 if __name__ == '__main__':
     get_all_accounts()
     get_account_by_id('E0B3G6')  
     search_accounts_by_name('Bob')
+    generate_account_url('E0B3G6', 'sales')
