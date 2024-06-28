@@ -95,34 +95,57 @@ def search_accounts() -> Tuple[List[Dict], int]:
 
 @app.route('/api/accounts/url', methods=['POST'])
 def generate_account_url() -> Tuple[Dict, int]:
-    """ Generate a URL for the given account ID and type.
+    """ 
+    Generate a URL for the given account ID and type.
+    
     Returns:
         A JSON object with the generated URL and a HTTP status code.
     """
-    data = request.get_json()
-    account_id = data.get('account_id')
-    account_type = data.get('account_type')
+    try:
+        # Log the incoming request for debugging purposes
+        app.logger.info('Received request: %s', request.data)
 
-    # Validate input
-    if not account_id or not account_type:
-        return jsonify({'error': 'account_id and account_type are required'}), 400
+        # Ensure the content type is JSON
+        if request.content_type != 'application/json':
+            return jsonify({'error': 'Content-Type must be application/json'}), 415
 
-    # Define base URL parts
-    base_urls = {
-        'portfolio': 'https://sales.com/portfolio/accounts/',
-        'sales': 'https://sales.com/sales/accounts/',
-        'activity': 'https://sales.com/activity/accounts/'
-    }
+        # Parse JSON data from the request
+        data = request.get_json()
 
-    # Get the appropriate base URL
-    base_url = base_urls.get(account_type.lower())
-    if not base_url:
-        return jsonify({'error': 'Invalid account_type'}), 400
+        # Log parsed data for debugging purposes
+        app.logger.info('Parsed JSON data: %s', data)
 
-    # Generate the full URL
-    full_url = f"{base_url}{account_id}"
+        # Extract account_id and account_type
+        account_id = data.get('account_id')
+        account_type = data.get('account_type')
 
-    return jsonify({'url': full_url}), 200
+        # Validate input
+        if not account_id or not account_type:
+            return jsonify({'error': 'account_id and account_type are required'}), 400
+
+        # Define base URL parts
+        base_urls = {
+            'portfolio': 'https://sales.com/portfolio/accounts/',
+            'sales': 'https://sales.com/sales/accounts/',
+            'activity': 'https://sales.com/activity/accounts/'
+        }
+
+        # Get the appropriate base URL
+        base_url = base_urls.get(account_type.lower())
+        if not base_url:
+            return jsonify({'error': 'Invalid account_type'}), 400
+
+        # Generate the full URL
+        full_url = f"{base_url}{account_id}"
+
+        # Log generated URL for debugging purposes
+        app.logger.info('Generated URL: %s', full_url)
+
+        return jsonify({'url': full_url}), 200
+
+    except Exception as e:
+        app.logger.error('Error generating URL: %s', str(e))
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

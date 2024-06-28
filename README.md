@@ -62,7 +62,7 @@ python src/dev/db_test.py
 `app_server.py` sets up a localhost Flask server with GET methods to retrieve accounts by name (partial string match) and ID. Run this to start the server:
 
 ```bash
-python src/app/app_server.py
+python src/dev/app_server.py
 ```
 
 ### 8. Test GET Methods
@@ -70,7 +70,7 @@ python src/app/app_server.py
 Run `app_client.py` to test if the GET methods are functioning properly:
 
 ```bash
-python src/app/app_client.py
+python src/dev/app_client.py
 ```
 
 ### 9. Prepare for Cloud Deployment

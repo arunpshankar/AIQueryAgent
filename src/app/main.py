@@ -9,6 +9,7 @@ from typing import List
 import logging
 import sqlite3
 import flask 
+import json 
 import sys
 
 
@@ -105,9 +106,61 @@ def search_accounts() -> Tuple[Dict[str, Union[str, List[Dict[str, Union[str, in
         return jsonify({'error': 'Internal Server Error'}), 500
 
 
+@app.route('/api/accounts/url', methods=['POST'])
+def generate_account_url() -> Tuple[Dict, int]:
+    """ 
+    Generate a URL for the given account ID and type.
+    
+    Returns:
+        A JSON object with the generated URL and a HTTP status code.
+    """
+    try:
+        # Log the incoming request for debugging purposes
+        app.logger.info('Received request: %s', request.data)
+        app.logger.info('Request headers: %s', request.headers)
+
+        # Parse JSON data from the request
+        data = request.get_json(force=True)
+
+        # Log parsed data for debugging purposes
+        app.logger.info('Parsed data: %s', data)
+
+        # Extract account_id and account_type
+        account_id = data.get('account_id')
+        account_type = data.get('account_type')
+
+        # Validate input
+        if not account_id or not account_type:
+            return jsonify({'error': 'account_id and account_type are required'}), 400
+
+        # Define base URL parts
+        base_urls = {
+            'portfolio': 'https://sales.com/portfolio/accounts/',
+            'sales': 'https://sales.com/sales/accounts/',
+            'activity': 'https://sales.com/activity/accounts/'
+        }
+
+        # Get the appropriate base URL
+        base_url = base_urls.get(account_type.lower())
+        if not base_url:
+            return jsonify({'error': 'Invalid account_type'}), 400
+
+        # Generate the full URL
+        full_url = f"{base_url}{account_id}"
+
+        # Log generated URL for debugging purposes
+        app.logger.info('Generated URL: %s', full_url)
+
+        return jsonify({'url': full_url}), 200
+
+    except Exception as e:
+        app.logger.error('Error generating URL: %s', str(e))
+        return jsonify({'error': str(e)}), 500
+
+
 def sales(request: Request) -> Tuple[Dict[str, str], int]:
     """
-    Mock function to process a request and return a response.
+    Entry point for the Cloud Function to process a request and return a response.
 
     Args:
         request (Request): The Flask request object.
@@ -115,8 +168,11 @@ def sales(request: Request) -> Tuple[Dict[str, str], int]:
     Returns:
         Tuple[Dict[str, str], int]: JSON response and status code.
     """
-    logger.info(f'Request: {request.__dict__}')
-    with app.test_request_context(path=request.full_path, method=request.method):
+    logger.info(f'Request method: {request.method}')
+    logger.info(f'Request headers: {request.headers}')
+    logger.info(f'Request data: {request.data}')
+
+    with app.test_request_context(path=request.full_path, method=request.method, data=request.data):
         try:
             # Manually dispatch the Flask request
             response = app.dispatch_request()
