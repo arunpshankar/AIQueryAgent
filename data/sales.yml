@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: A mock Sales API to manage sales account information.
 servers:
-  - url: 'http://localhost:5000'
+  - url: 'https://us-central1-arun-genai-bb.cloudfunctions.net/sales'
 paths:
   /api/accounts:
     get:
@@ -28,7 +28,7 @@ paths:
           name: accountId
           required: true
           schema:
-            type: string  # Changed from integer to string
+            type: string
           description: The ID of the account to retrieve.
       responses:
         '200':
@@ -61,6 +61,39 @@ paths:
                   $ref: '#/components/schemas/Account'
         '404':
           description: No accounts found matching the criteria
+  /api/accounts/url:
+    post:
+      summary: Generate account URL
+      operationId: generateAccountUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - account_id
+                - account_type
+              properties:
+                account_id:
+                  type: string
+                account_type:
+                  type: string
+                  enum: [portfolio, sales, activity]
+      responses:
+        '200':
+          description: Successfully generated URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+        '400':
+          description: Bad request (invalid input)
+        '500':
+          description: Internal server error
 components:
   schemas:
     Account:
@@ -70,7 +103,7 @@ components:
         - name
       properties:
         id:
-          type: string  # Changed from integer to string
+          type: string
         name:
           type: string
         industry:
