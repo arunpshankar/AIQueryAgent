@@ -87,7 +87,7 @@ def get_account(account_id: str) -> Tuple[Dict[str, Union[str, Dict[str, Union[s
 @app.route('/api/accounts/search', methods=['GET'])
 def search_accounts() -> Tuple[Dict[str, Union[str, List[Dict[str, Union[str, int]]]]], int]:
     """
-    Search for accounts by name.
+    Search for accounts by name (partial or exact string match).
 
     Returns:
         Tuple[Dict[str, Union[str, List[Dict[str, Union[str, int]]]]], int]: JSON response with the accounts and status code.
