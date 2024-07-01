@@ -101,12 +101,11 @@ Use the OpenAPI spec to set up the agent under Agent Builder. The spec is used t
 
 **Examples** of questions to ask the agent in each turn:
 
-- hi
-- please provide the details for P3H9N2
-- fetch all accounts associated with the name - Bob
-- show me both side by side (as a markdown)
-- list all accounts that are active
-- how many are there in total?
-- get counts by industry type
+- Hello!
+- What can you assist me with?
+- Please provide me the details for account P3H9N2.
+- Fetch all accounts with the name "Bob."
+- Can you get me the portfolio URL for Bob LLC?
+- List all active retail accounts.
 
 ---
