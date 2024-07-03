@@ -65,7 +65,7 @@ python src/dev/db_test.py
 python src/dev/app_server.py
 ```
 
-### 8. Test GET Methods
+### 8. Test GET and POST Methods
 
 Run `app_client.py` to test if the GET methods are functioning properly:
 
