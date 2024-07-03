@@ -2,7 +2,7 @@
 
 AI agent capable of querying a mock sales database via a RESTful API to fetch and analyze customer-centric data.
 
-![agent](./img/agent-interaction.png)
+![agent-arch](./img/agent-arch.png)
 
 ## Tools and Services
 
@@ -107,5 +107,7 @@ Use the OpenAPI spec to set up the agent under Agent Builder. The spec is used t
 - Fetch all accounts with the name "Bob."
 - Can you get me the portfolio URL for Bob LLC?
 - List all active retail accounts.
+
+![agent](./img/agent-interaction.png)
 
 ---
